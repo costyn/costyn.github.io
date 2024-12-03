@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Splendida LED Art Firmware Updater</title>
+    <link rel="stylesheet" href="style.css">
+    <script type="module" src="https://unpkg.com/esp-web-tools@10/dist/web/install-button.js?module"></script>
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1>Splendida LED Art</h1>
+            <h2>Firmware Updater</h2>
+        </header>
+
+        <main>
+            <div class="update-section">
+                <h3>Update Your Device</h3>
+                <p>Connect your Splendida LED Art piece to update to the latest firmware.</p>
+
+                <!-- ESP Web Tools will be inserted here -->
+                <div id="firmware-update">
+                    <esp-web-install-button manifest="https://costyn.github.io/esp-web-tools/manifest.json">
+                    </esp-web-install-button>
+                </div>
+            </div>
+
+            <div class="instructions">
+                <h3>Instructions</h3>
+                <ol>
+                    <li>Plug in your Splendida LED Art piece</li>
+                    <li>Connect to USB port</li>
+                    <li>Click "Connect"</li>
+                    <li>Wait for the update to complete</li>
+                    <li>Your device will restart automatically</li>
+                </ol>
+            </div>
+        </main>
+        <hr />
+        <footer>
+            <p>ESP Web Tools is a project by <a href="https://esphome.io/">ESPHome</a>.</p>
+            <p>Development is funded by <a href="https://www.nabucasa.com/">Nabu Casa</a>.</p>
+            <p>ESP Web Tools is <a href="https://github.com/esphome/esp-web-tools">open source</a>.</p>
+        </footer>
+    </div>
+</body>
+
+</html>
