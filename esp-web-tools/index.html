@@ -17,27 +17,36 @@
         </header>
 
         <main>
-            <div class="update-section">
-                <h3>Update Your Device</h3>
-                <p>Connect your Splendida LED Art piece to update to the latest firmware.</p>
+            <div class="content-section">
 
-                <!-- ESP Web Tools will be inserted here -->
-                <div id="firmware-update">
-                    <esp-web-install-button manifest="https://costyn.github.io/esp-web-tools/manifest.json">
-                    </esp-web-install-button>
+                <div class="update-section">
+                    <h3>Update Your Device</h3>
+                    <p>Connect your Splendida LED Art piece to update to the latest firmware: v1.0.0.</p>
+
+                    <!-- ESP Web Tools will be inserted here -->
+                    <div id="firmware-update">
+                        <esp-web-install-button manifest="https://costyn.github.io/esp-web-tools/manifest.json">
+                        </esp-web-install-button>
+                    </div>
+                </div>
+
+                <div class="instructions">
+                    <h3>Instructions</h3>
+                    <ol>
+                        <li>Please use Chrome or Brave or Arc as a browser</li>
+                        <li>Connect Splendida by USB-C cable to a USB port on this computer</li>
+                        <li>Click "Connect"</li>
+                        <li>Choose the M5Stack device from the list.</li>
+                        <li>Wait for the update to complete.</li>
+                        <li>Your device will restart automatically.</li>
+                    </ol>
                 </div>
             </div>
 
-            <div class="instructions">
-                <h3>Instructions</h3>
-                <ol>
-                    <li>Please use Chrome browser!</li>
-                    <li>Connect Splendida by USB-C cable to a USB port on this computer</li>
-                    <li>Click "Connect"</li>
-                    <li>Choose the M5Stack device from the list.</li>
-                    <li>Wait for the update to complete.</li>
-                    <li>Your device will restart automatically.</li>
-                </ol>
+            <div class="content-section">
+                <div class="image-card">
+                    <img src="splendida.jpeg" alt="Splendida LED Art Device">
+                </div>
             </div>
         </main>
         <hr />
