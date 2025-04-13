@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Lightbox Gallery</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            line-height: 1.6;
+            color: #333;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f7f7f7;
+        }
+
+        header {
+            text-align: center;
+            padding: 30px 0;
+        }
+
+        h1 {
+            margin-bottom: 10px;
+            color: #2c3e50;
+        }
+
+        .description {
+            max-width: 800px;
+            margin: 0 auto 40px;
+        }
+
+        /* Product container */
+        .product-container {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 40px;
+        }
+
+        /* Main image container */
+        .main-image {
+            margin-bottom: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            position: relative;
+            height: 500px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .main-image img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        /* Thumbnails container */
+        .thumbnails {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .thumbnail {
+            width: 100px;
+            height: 100px;
+            border-radius: 8px;
+            overflow: hidden;
+            cursor: pointer;
+            border: 3px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .thumbnail.active {
+            border-color: #3498db;
+        }
+
+        .thumbnail:hover {
+            transform: translateY(-5px);
+        }
+
+        .thumbnail img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Lightbox */
+        .lightbox {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .lightbox.active {
+            display: flex;
+        }
+
+        .lightbox-content {
+            position: relative;
+            max-width: 90%;
+            max-height: 90%;
+        }
+
+        .lightbox-content img {
+            max-width: 100%;
+            max-height: 90vh;
+            object-fit: contain;
+        }
+
+        .close-lightbox {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            color: white;
+            font-size: 30px;
+            cursor: pointer;
+            z-index: 1001;
+        }
+
+        .lightbox-nav {
+            position: absolute;
+            top: 50%;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            transform: translateY(-50%);
+        }
+
+        .lightbox-nav button {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            padding: 10px 15px;
+            font-size: 24px;
+            cursor: pointer;
+            border-radius: 5px;
+            margin: 0 20px;
+            transition: background 0.3s ease;
+        }
+
+        .lightbox-nav button:hover {
+            background: rgba(255, 255, 255, 0.4);
+        }
+
+        /* Product details */
+        .product-details {
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            margin-top: 40px;
+        }
+
+        .product-details h2 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+        }
+
+        @media (max-width: 768px) {
+            .main-image {
+                height: 350px;
+            }
+
+            .thumbnail {
+                width: 80px;
+                height: 80px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Fibonacci Light Sculpture</h1>
+    </header>
+
+    <div class="product-container">
+        <!-- Main image display -->
+        <div class="main-image">
+            <img id="current-image" src="/api/placeholder/800/600" alt="Fibonacci Light Sculpture">
+        </div>
+
+        <!-- Thumbnails will be dynamically generated by JavaScript -->
+        <div class="thumbnails" id="thumbnails-container">
+            <!-- Thumbnails are inserted here by script -->
+        </div>
+    </div>
+
+    <!-- Product details -->
+    <div class="product-details">
+        <h2>Fibonacci Light Sculpture</h2>
+        <p>A stunning light sculpture inspired by the Fibonacci sequence and golden ratio found in nature. This
+            handcrafted piece combines copper petals arranged in a perfect spiral with a custom LED matrix center that
+            creates mesmerizing light patterns.</p>
+
+        <h3>Features:</h3>
+        <ul>
+            <li>Handcrafted copper petals with natural patina</li>
+            <li>Programmable LED matrix with multiple light patterns</li>
+            <li>USB-C powered with optional battery pack</li>
+            <li>Dimensions: 12" diameter</li>
+            <li>Perfect as a wall piece or tabletop sculpture</li>
+        </ul>
+    </div>
+
+    <!-- Lightbox -->
+    <div class="lightbox">
+        <span class="close-lightbox">&times;</span>
+        <div class="lightbox-content">
+            <img src="/api/placeholder/1200/800" alt="Lightbox image">
+        </div>
+        <div class="lightbox-nav">
+            <button class="prev-btn">&larr;</button>
+            <button class="next-btn">&rarr;</button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Image data
+            const images = [
+                {
+                    full: 'images/20250208_153245.JPG',
+                    thumb: 'images/thumbnails/20250208_153245_thumb.JPG',
+                    alt: 'Fibonacci Light Sculpture - View 1'
+                },
+                {
+                    full: 'images/20250208_153303.JPG',
+                    thumb: 'images/thumbnails/20250208_153303_thumb.JPG',
+                    alt: 'Fibonacci Light Sculpture - View 2'
+                },
+                {
+                    full: 'images/20250208_153521.JPG',
+                    thumb: 'images/thumbnails/20250208_153521_thumb.JPG',
+                    alt: 'Fibonacci Light Sculpture - View 3'
+                },
+                {
+                    full: 'images/20250208_154505.JPG',
+                    thumb: 'images/thumbnails/20250208_154505_thumb.JPG',
+                    alt: 'Fibonacci Light Sculpture - View 4'
+                },
+                {
+                    full: 'images/20250208_154538.JPG',
+                    thumb: 'images/thumbnails/20250208_154538_thumb.JPG',
+                    alt: 'Fibonacci Light Sculpture - View 5'
+                },
+                {
+                    full: 'images/20250208_154541.JPG',
+                    thumb: 'images/thumbnails/20250208_154541_thumb.JPG',
+                    alt: 'Fibonacci Light Sculpture - View 6'
+                },
+                {
+                    full: 'images/20250208_154600.JPG',
+                    thumb: 'images/thumbnails/20250208_154600_thumb.JPG',
+                    alt: 'Fibonacci Light Sculpture - View 7'
+                },
+                {
+                    full: 'images/20250208_154616.JPG',
+                    thumb: 'images/thumbnails/20250208_154616_thumb.JPG',
+                    alt: 'Fibonacci Light Sculpture - View 8'
+                },
+                {
+                    full: 'images/20250208_154654.JPG',
+                    thumb: 'images/thumbnails/20250208_154654_thumb.JPG',
+                    alt: 'Fibonacci Light Sculpture - View 9'
+                },
+                {
+                    full: 'images/20250208_154749.JPG',
+                    thumb: 'images/thumbnails/20250208_154749_thumb.JPG',
+                    alt: 'Fibonacci Light Sculpture - View 10'
+                },
+                {
+                    full: 'images/20250208_154946.JPG',
+                    thumb: 'images/thumbnails/20250208_154946_thumb.JPG',
+                    alt: 'Fibonacci Light Sculpture - View 11'
+                },
+                {
+                    full: 'images/20250208_155002.JPG',
+                    thumb: 'images/thumbnails/20250208_155002_thumb.JPG',
+                    alt: 'Fibonacci Light Sculpture - View 12'
+                },
+                {
+                    full: 'images/20250208_155048.JPG',
+                    thumb: 'images/thumbnails/20250208_155048_thumb.JPG',
+                    alt: 'Fibonacci Light Sculpture - View 13'
+                },
+                {
+                    full: 'images/20250208_175701.JPG',
+                    thumb: 'images/thumbnails/20250208_175701_thumb.JPG',
+                    alt: 'Fibonacci Light Sculpture - View 14'
+                },
+                {
+                    full: 'images/20250208_175707.JPG',
+                    thumb: 'images/thumbnails/20250208_175707_thumb.JPG',
+                    alt: 'Fibonacci Light Sculpture - View 15'
+                },
+                {
+                    full: 'images/20250208_175907.JPG',
+                    thumb: 'images/thumbnails/20250208_175907_thumb.JPG',
+                    alt: 'Fibonacci Light Sculpture - View 16'
+                },
+                {
+                    full: 'images/20250208_175938.JPG',
+                    thumb: 'images/thumbnails/20250208_175938_thumb.JPG',
+                    alt: 'Fibonacci Light Sculpture - View 17'
+                },
+                {
+                    full: 'images/20250208_180011.JPG',
+                    thumb: 'images/thumbnails/20250208_180011_thumb.JPG',
+                    alt: 'Fibonacci Light Sculpture - View 18'
+                },
+                {
+                    full: 'images/20250208_180033.JPG',
+                    thumb: 'images/thumbnails/20250208_180033_thumb.JPG',
+                    alt: 'Fibonacci Light Sculpture - View 19'
+                },
+                {
+                    full: 'images/20250208_180043.JPG',
+                    thumb: 'images/thumbnails/20250208_180043_thumb.JPG',
+                    alt: 'Fibonacci Light Sculpture - View 20'
+                },
+                {
+                    full: 'images/20250208_180054.JPG',
+                    thumb: 'images/thumbnails/20250208_180054_thumb.JPG',
+                    alt: 'Fibonacci Light Sculpture - View 21'
+                },
+                {
+                    full: 'images/20250208_180105.JPG',
+                    thumb: 'images/thumbnails/20250208_180105_thumb.JPG',
+                    alt: 'Fibonacci Light Sculpture - View 22'
+                },
+                {
+                    full: 'images/20250208_180119.JPG',
+                    thumb: 'images/thumbnails/20250208_180119_thumb.JPG',
+                    alt: 'Fibonacci Light Sculpture - View 23'
+                }
+            ];
+
+            let currentIndex = 0;
+            const mainImage = document.getElementById('current-image');
+            const lightbox = document.querySelector('.lightbox');
+            const lightboxImage = document.querySelector('.lightbox-content img');
+            const closeBtn = document.querySelector('.close-lightbox');
+            const prevBtn = document.querySelector('.prev-btn');
+            const nextBtn = document.querySelector('.next-btn');
+
+            // Generate thumbnail elements
+            function generateThumbnails() {
+                const container = document.getElementById('thumbnails-container');
+                images.forEach((image, index) => {
+                    const thumbDiv = document.createElement('div');
+                    thumbDiv.className = index === 0 ? 'thumbnail active' : 'thumbnail';
+                    thumbDiv.setAttribute('data-index', index);
+
+                    const img = document.createElement('img');
+                    img.src = image.thumb;
+                    img.alt = `Thumbnail ${index + 1}`;
+
+                    thumbDiv.appendChild(img);
+                    container.appendChild(thumbDiv);
+
+                    thumbDiv.addEventListener('click', function () {
+                        const clickedIndex = parseInt(this.getAttribute('data-index'));
+                        updateMainImage(clickedIndex);
+                    });
+                });
+            }
+
+            // Generate thumbnails
+            generateThumbnails();
+
+            // Initialize with the first image
+            updateMainImage(0);
+
+            // Main image click opens lightbox
+            mainImage.addEventListener('click', function () {
+                openLightbox(currentIndex);
+            });
+
+            // Close lightbox
+            closeBtn.addEventListener('click', function () {
+                lightbox.classList.remove('active');
+            });
+
+            // Close lightbox when clicking outside the image
+            lightbox.addEventListener('click', function (e) {
+                if (e.target === lightbox) {
+                    lightbox.classList.remove('active');
+                }
+            });
+
+            // Previous image in lightbox
+            prevBtn.addEventListener('click', function () {
+                navigateImage(-1);
+            });
+
+            // Next image in lightbox
+            nextBtn.addEventListener('click', function () {
+                navigateImage(1);
+            });
+
+            // Keyboard navigation
+            document.addEventListener('keydown', function (e) {
+                if (!lightbox.classList.contains('active')) return;
+
+                if (e.key === 'Escape') {
+                    lightbox.classList.remove('active');
+                } else if (e.key === 'ArrowLeft') {
+                    navigateImage(-1);
+                } else if (e.key === 'ArrowRight') {
+                    navigateImage(1);
+                }
+            });
+
+            // Functions
+            function updateMainImage(index) {
+                currentIndex = index;
+                mainImage.src = images[index].full;
+                mainImage.alt = images[index].alt;
+
+                // Update active thumbnail
+                const thumbnails = document.querySelectorAll('.thumbnail');
+                thumbnails.forEach(thumb => {
+                    thumb.classList.remove('active');
+                });
+                thumbnails[index].classList.add('active');
+            }
+
+            function openLightbox(index) {
+                lightboxImage.src = images[index].full;
+                lightboxImage.alt = images[index].alt;
+                lightbox.classList.add('active');
+            }
+
+            function navigateImage(direction) {
+                let newIndex = currentIndex + direction;
+
+                // Loop around if at ends
+                if (newIndex < 0) newIndex = images.length - 1;
+                if (newIndex >= images.length) newIndex = 0;
+
+                // Update lightbox image
+                lightboxImage.src = images[newIndex].full;
+                lightboxImage.alt = images[newIndex].alt;
+                currentIndex = newIndex;
+
+                // Update main view and thumbnails too for consistency
+                updateMainImage(newIndex);
+            }
+        });
+    </script>
+</body>
+
+</html>
